@@ -40,10 +40,19 @@ const config: webpack.Configuration = {
       },
     ]
   },
-  /*
   optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /node_modules/,
+          chunks: 'all',
+          name: 'vendor',
+          priority: 10,
+          enforce: true,
+        },
+      },
+    },
   },
-  */
 };
 
 export default config;
