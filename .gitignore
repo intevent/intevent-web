@@ -1,5 +1,8 @@
+# directories
 .vscode
 node_modules
 bin
 obj
 wwwroot/js/*
+
+# files
