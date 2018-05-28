@@ -6,6 +6,12 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+
+    <Content Update="wwwroot\js\**\*.*" CopyToPublishDirectory="Never" />
+    <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+    <Content Update="package-lock.json" CopyToPublishDirectory="Never" />
+    <Content Update="package.json" CopyToPublishDirectory="Never" />
+    <Content Update="tsconfig.json" CopyToPublishDirectory="Never" />
   </ItemGroup>
 
   <ItemGroup>

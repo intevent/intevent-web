@@ -1,7 +1,8 @@
 # directories
 .vscode
-node_modules
 bin
+dist
+node_modules
 obj
 wwwroot/js/*
 

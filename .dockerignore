@@ -1,5 +1,7 @@
 # directories
 **/bin/
+**/docs/
+**/node_modules/
 **/obj/
 
 # files

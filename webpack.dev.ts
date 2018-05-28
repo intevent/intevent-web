@@ -9,6 +9,7 @@ const config: webpack.Configuration = {
   ],
   output: {
     filename: 'intevent.js',
+    chunkFilename: '[name].intevent.js',
     path: path.resolve(__dirname, 'wwwroot', 'js'),
   },
   /*
