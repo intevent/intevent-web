@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -20,19 +21,29 @@ namespace intevent_web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.Use(async (context, next) => 
+            { 
+                await next(); 
+                string path = context.Request.Path.Value;
+
+                if (!path.StartsWith("/api") && !Path.HasExtension(path)) 
+                { 
+                    context.Request.Path = "/"; 
+                    await next(); 
+                } 
+            });
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
