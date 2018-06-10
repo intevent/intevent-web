@@ -23,6 +23,7 @@ docker run --rm -it -p 5000:80 -v $(pwd):/app/ -w /app/ microsoft/dotnet:2.1-sdk
 
 ### Watch
 ```bash
+export ASPNETCORE_ENVIRONMENT=Development
 docker run --rm -it -p 5000:80 -v $(pwd):/app/ -w /app/ microsoft/dotnet:2.1-sdk-alpine dotnet watch run
 ```
 

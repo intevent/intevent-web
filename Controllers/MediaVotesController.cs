@@ -8,6 +8,7 @@ using intevent_web.Models;
 namespace intevent_web.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class MediaVotesController : ControllerBase
     {
         private IEnumerable<MediaVoteSet> VoteSets = new List<MediaVoteSet>
