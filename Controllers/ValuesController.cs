@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace intevent_web.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    [ApiController]
+    public class ValuesController : ControllerBase
     {
         // GET api/values
         [HttpGet]

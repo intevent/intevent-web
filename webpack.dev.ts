@@ -9,6 +9,7 @@ const config: webpack.Configuration = {
   ],
   output: {
     filename: 'intevent.js',
+    chunkFilename: '[name].intevent.js',
     path: path.resolve(__dirname, 'wwwroot', 'js'),
   },
   /*
@@ -40,10 +41,19 @@ const config: webpack.Configuration = {
       },
     ]
   },
-  /*
   optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /node_modules/,
+          chunks: 'all',
+          name: 'vendor',
+          priority: 10,
+          enforce: true,
+        },
+      },
+    },
   },
-  */
 };
 
 export default config;
