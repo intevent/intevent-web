@@ -1,4 +1,5 @@
 FROM node:10-alpine AS react-app-builder
+LABEL stage=intevent-web-intermediate
 RUN mkdir -p /app
 WORKDIR /app
 COPY . /app
@@ -6,6 +7,7 @@ RUN npm install
 RUN npm run build:production
 
 FROM microsoft/dotnet:2.1-sdk-alpine AS aspnet-builder
+LABEL stage=intevent-web-intermediate
 RUN mkdir -p /app/wwwroot/js
 WORKDIR /app
 COPY . /app

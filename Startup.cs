@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using intevent_web.Services;
 
 namespace intevent_web
 {
@@ -36,6 +37,13 @@ namespace intevent_web
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddHttpClient<IMediaVotesService, MediaVotesService>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5010/");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("User-Agent", "intevent-web");
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
