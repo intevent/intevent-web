@@ -10,48 +10,48 @@ const config: webpack.Configuration = {
   mode: 'development',
   devtool: 'inline-source-map',
   entry: {
-    app: path.resolve(appPath, 'index.ts'),
+    app: path.resolve(appPath, 'index.ts')
   },
   output: {
     filename: '[name].intevent.js',
     chunkFilename: '[name].intevent.js',
-    path: outputPath,
+    path: outputPath
   },
   plugins: [
     new InjectManifest({
       importWorkboxFrom: 'cdn',
       swDest: path.resolve(outputPath, 'sw.intevent.js'),
-      swSrc: path.resolve(appPath, 'sw.ts'),
+      swSrc: path.resolve(appPath, 'sw.ts')
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'server',
       analyzerHost: '0.0.0.0',
-      analyzerPort: 9000,
-    }),
+      analyzerPort: 9000
+    })
   ],
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', 'jsx']
   },
   module: {
     rules: [
       {
         enforce: 'pre',
         test: /\.js$/,
-        loader: 'source-map-loader',
+        loader: 'source-map-loader'
       },
       {
         test: /\.tsx?$/,
         loaders: ['ts-loader'],
-        sideEffects: false,
+        sideEffects: false
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader'],
+        use: ['file-loader']
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: ['file-loader'],
-      },
+        use: ['file-loader']
+      }
     ]
   },
   optimization: {
@@ -62,11 +62,11 @@ const config: webpack.Configuration = {
           chunks: 'all',
           name: 'vendor',
           priority: 10,
-          enforce: true,
-        },
-      },
-    },
-  },
+          enforce: true
+        }
+      }
+    }
+  }
 };
 
 export default config;
