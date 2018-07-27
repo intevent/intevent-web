@@ -11,19 +11,19 @@ docker run --rm -it -v $(pwd):/app/ -w /app/ node:10-alpine npm install
 
 ### Watch
 ```bash
-docker run --rm -it -v $(pwd):/app/ -w /app/ node:10-alpine npm run watch
+docker run --rm -it -p 9000:9000 -v $(pwd):/app/ -w /app/ node:10-alpine npm run watch
 ```
 
 ## AspNet
 
 ### Install
 ```bash
-docker run --rm -it -p 5000:80 -v $(pwd):/app/ -w /app/ microsoft/dotnet:2.1-sdk-alpine dotnet restore
+docker run --rm -it -v $(pwd):/app/ -w /app/ microsoft/dotnet:2.1-sdk-alpine dotnet restore
 ```
 
 ### Watch
 ```bash
-docker run --rm -it -p 5000:80 -v $(pwd):/app/ -w /app/ microsoft/dotnet:2.1-sdk-alpine dotnet watch run
+docker run --rm -it -p 80:80 -v $(pwd):/app/ -w /app/ microsoft/dotnet:2.1-sdk-alpine dotnet watch run
 ```
 
 ## Docker
