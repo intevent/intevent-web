@@ -32,6 +32,7 @@ docker run --rm -it -p 5000:80 -v $(pwd):/app/ -w /app/ microsoft/dotnet:2.1-sdk
 **CAUTION**: Running this requires 3 separate docker images, and will re-download all dotnet and npm packages
 ```bash
 docker build --no-cache -t intevent-web .
+docker image prune --filter label=stage=intevent-web-intermediate
 ```
 
 ### Remove all stopped containers
