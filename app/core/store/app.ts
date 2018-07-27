@@ -1,7 +1,7 @@
 import { Action, applyMiddleware, compose, createStore, Store } from 'redux';
 import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 import { appReducer, AppState, defaultAppState } from '../reducers/app';
-// import { appSaga } from '../sagas/app';
+import { helloSaga } from '../sagas/app';
 
 export const configureStore = (defaultState: AppState = defaultAppState): Store<AppState> => {
   const sagaMiddleware = createSagaMiddleware();
@@ -15,6 +15,6 @@ export const configureStore = (defaultState: AppState = defaultAppState): Store<
     ),
   );
 
-  // sagaMiddleware.run(appSaga);
+  sagaMiddleware.run(helloSaga);
   return store;
 };
