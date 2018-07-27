@@ -3,21 +3,16 @@
   "compilerOptions": {
     "importHelpers": true,
     "jsx": "react",
-    "lib": [
-      "dom",
-      "es6"
-    ],
+    "lib": ["dom", "es6"],
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "./dist/",
     "sourceMap": true,
-    "strict": true,
-    "target": "es5"
+    "strict": false,
+    "target": "es5",
+    "allowJs": true,
+    "checkJs": true
   },
-  "include": [
-    "./app/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./app/**/*"],
+  "exclude": ["node_modules"]
 }
