@@ -19,13 +19,13 @@ const config: webpack.Configuration = {
   },
   plugins: [
     new InjectManifest({
-      importWorkboxFrom: 'vendor',
+      importWorkboxFrom: 'cdn',
       swDest: path.resolve(outputPath, 'sw.intevent.js'),
       swSrc: path.resolve(appPath, 'sw.ts'),
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'server',
-      analyzerHost: '127.0.0.1',
+      analyzerHost: '0.0.0.0',
       analyzerPort: 9000,
     }),
   ],
