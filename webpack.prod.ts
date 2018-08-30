@@ -1,20 +1,27 @@
 import * as webpack from 'webpack';
 import * as path from 'path';
+const { InjectManifest } = require('workbox-webpack-plugin');
+
+const appPath = path.resolve(__dirname, 'app');
+const outputPath = path.resolve(__dirname, 'dist');
 
 const config: webpack.Configuration = {
   mode: 'production',
-  entry: [
-    './app/index.ts',
-  ],
-  output: {
-    filename: 'intevent.js',
-    chunkFilename: '[name].intevent.js',
-    path: path.resolve(__dirname, 'dist'),
+  entry: {
+    app: path.resolve(appPath, 'index.ts'),
   },
-  /*
+  output: {
+    filename: '[name].intevent.js',
+    chunkFilename: '[name].intevent.js',
+    path: outputPath,
+  },
   plugins: [
+    new InjectManifest({
+      importWorkboxFrom: 'cdn',
+      swDest: path.resolve(outputPath, 'sw.intevent.js'),
+      swSrc: path.resolve(appPath, 'sw.ts'),
+    }),
   ],
-  */
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },

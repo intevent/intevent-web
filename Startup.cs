@@ -40,7 +40,7 @@ namespace intevent_web
 
             services.AddHttpClient<IMediaVotesService, MediaVotesService>(client =>
             {
-                client.BaseAddress = new Uri("http://localhost:5010/");
+                client.BaseAddress = new Uri("http://localhost:5000/");
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
                 client.DefaultRequestHeaders.Add("User-Agent", "intevent-web");
             });
