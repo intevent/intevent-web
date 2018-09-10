@@ -34,7 +34,7 @@
     "@types/webpack": "4.4.11",
     "@types/webpack-bundle-analyzer": "2.9.2",
     "file-loader": "2.0.0",
-    "jest": "23.5.0",
+    "jest": "23.6.0",
     "source-map-loader": "0.2.4",
     "storybook": "1.0.0",
     "tslib": "1.9.3",
