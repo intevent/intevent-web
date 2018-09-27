@@ -38,6 +38,13 @@ namespace intevent_web
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddHttpClient<IEventsService, EventsService>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5000/");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("User-Agent", "intevent-web");
+            });
+
             services.AddHttpClient<IMediaVotesService, MediaVotesService>(client =>
             {
                 client.BaseAddress = new Uri("http://localhost:5000/");
