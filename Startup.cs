@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using GraphQL.Server;
+using GraphQL.Server.Transports.WebSockets;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,9 +37,18 @@ namespace intevent_web
             });
             */
 
+            services.AddGraphQL(options =>
+            {
+                options.EnableMetrics = true;
+                options.ExposeExceptions = true;
+            })
+            .AddWebSockets()
+            .AddDataLoader();
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            /*
             services.AddHttpClient<IEventsService, EventsService>(client =>
             {
                 client.BaseAddress = new Uri("http://localhost:5000/");
@@ -51,6 +62,7 @@ namespace intevent_web
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
                 client.DefaultRequestHeaders.Add("User-Agent", "intevent-web");
             });
+            */
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -69,7 +81,7 @@ namespace intevent_web
                 await next(); 
                 string path = context.Request.Path.Value;
 
-                if (!path.StartsWith("/api") && !Path.HasExtension(path)) 
+                if (!path.StartsWith("/api") && !path.StartsWith("/graphql") && !Path.HasExtension(path)) 
                 { 
                     context.Request.Path = "/"; 
                     await next(); 
@@ -79,6 +91,9 @@ namespace intevent_web
             // app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseWebSockets();
+            // app.UseGraphQLWebSockets<ChatSchema>("/graphql");
+            // app.UseGraphQL<ChatSchema>("/graphql");
             // app.UseCookiePolicy();
             app.UseMvc();
         }
