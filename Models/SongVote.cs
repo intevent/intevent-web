@@ -8,21 +8,28 @@ namespace intevent_web.Models
     {
         public string VoterId { get; set; }
 
-        public int SongId { get; set; }
-
-        public int TotalVotes { get; set; }
-
-        public DateTimeOffset? TimeUserVoted { get; set; }
+        public string SongId { get; set; }
     }
 
-    public class SongVoteGraphType : ObjectGraphType<SongVote>
+        public class SongVoteGraphType : ObjectGraphType<SongVote>
     {
         public SongVoteGraphType()
         {
+            Name = "SongVote";
+            Description = "";
             Field(_ => _.VoterId).Description("Voter Id");
             Field(_ => _.SongId).Description("Song Id");
-            Field(_ => _.TotalVotes).Description("Total Votes");
-            Field(_ => _.TimeUserVoted).Description("Time User Voted");
+        }
+    }
+
+    public class SongVoteInputGraphType : InputObjectGraphType<SongVote>
+    {
+        public SongVoteInputGraphType()
+        {
+            Name = "SongVoteInput";
+            Description = "";
+            Field(_ => _.VoterId).Description("Voter Id");
+            Field(_ => _.SongId).Description("Song Id");
         }
     }
 }
