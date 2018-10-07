@@ -65,8 +65,10 @@ namespace intevent_web
                 options.EnableMetrics = true;
                 options.ExposeExceptions = true;
             })
-            .AddWebSockets()
-            .AddDataLoader();
+            .AddWebSockets();
+            //https://github.com/graphql-dotnet/server/issues/162
+            //.AddDataLoader();
+            
             //.AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User });
 
             services.AddMvc()

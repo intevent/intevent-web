@@ -16,6 +16,12 @@ namespace intevent_web.GraphQL
                 description: "songs",
                 resolve: (context) => partyService.Songs
             );
+
+            Field<ListGraphType<VoteTotalGraphType>>(
+                name: "songVotes",
+                description: "song votes",
+                resolve: (context) => partyService.SongVotes
+            );
         }
     }
 }

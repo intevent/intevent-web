@@ -10,7 +10,7 @@ namespace intevent_web.GraphQL
         {
             Query = resolver.Resolve<PartyQueries>();
             Mutation = resolver.Resolve<PartyMutations>();
-            // Subscription = resolver.Resolve<PartySubscriptions>();
+            Subscription = resolver.Resolve<PartySubscriptions>();
         }
     }
 }

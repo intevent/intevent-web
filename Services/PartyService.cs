@@ -10,11 +10,13 @@ namespace intevent_web.Services
 {
     public interface IPartyService
     {
-        IObservable<IEnumerable<Song>> ObservableSongs();
-
         IEnumerable<Song> Songs { get; }
 
-        IObservable<IEnumerable<VoteTotal>> SongVotes();
+        IObservable<IEnumerable<Song>> ObservableSongs { get; }
+
+        IEnumerable<VoteTotal> SongVotes { get; }
+
+        IObservable<IEnumerable<VoteTotal>> ObservableSongVotes { get; }
 
         SongVote AddSongVote(SongVote vote);
 
@@ -23,6 +25,14 @@ namespace intevent_web.Services
     
     public class PartyService : IPartyService
     {
+        private ISubject<IEnumerable<Song>> SongStream { get; } = new ReplaySubject<IEnumerable<Song>>(1);
+
+        private ISubject<IEnumerable<VoteTotal>> VoteTotalStream { get; } = new ReplaySubject<IEnumerable<VoteTotal>>(1);
+
+        private ConcurrentBag<Song> AllSongs { get; } = new ConcurrentBag<Song>();
+
+        private ConcurrentDictionary<string, string> AllVotes { get; } = new ConcurrentDictionary<string, string>();
+
         public PartyService()
         {
             Reset(new List<Song>
@@ -35,27 +45,24 @@ namespace intevent_web.Services
             });
         }
 
-        private ISubject<IEnumerable<Song>> SongStream { get; } = new ReplaySubject<IEnumerable<Song>>(1);
-
-        private ISubject<IEnumerable<VoteTotal>> VoteTotalStream { get; } = new ReplaySubject<IEnumerable<VoteTotal>>(1);
-
-        private ConcurrentBag<Song> AllSongs { get; } = new ConcurrentBag<Song>();
-
-        private ConcurrentDictionary<string, string> AllVotes { get; } = new ConcurrentDictionary<string, string>();
-
-        public IObservable<IEnumerable<Song>> ObservableSongs()
-        {
-            return SongStream.AsObservable();
-        }
-        
         public IEnumerable<Song> Songs
         {
             get { return AllSongs.AsEnumerable(); }
         }
 
-        public IObservable<IEnumerable<VoteTotal>> SongVotes()
+        public IObservable<IEnumerable<Song>> ObservableSongs
         {
-            return VoteTotalStream.AsObservable();
+            get { return SongStream.AsObservable(); }
+        }
+
+        public IEnumerable<VoteTotal> SongVotes
+        {
+            get { return GenerateVoteTotals(AllSongs, AllVotes); }
+        }
+
+        public IObservable<IEnumerable<VoteTotal>> ObservableSongVotes
+        {
+            get { return VoteTotalStream.AsObservable(); }
         }
 
         public SongVote AddSongVote(SongVote vote)
