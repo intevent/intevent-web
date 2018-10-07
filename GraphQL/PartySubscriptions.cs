@@ -16,34 +16,29 @@ namespace intevent_web.GraphQL
         {
             PartyService = partyService;
 
-            /*
             AddField(new EventStreamFieldType
             {
                 Name = "songsUpdated",
-                Type = typeof(ListGraphType<SongGraphType>),
-                Resolver = new FuncFieldResolver<Message>(ResolveMessage),
-                Subscriber = new EventStreamResolver<Message>(Subscribe)
+                Type = typeof(SongListingGraphType),
+                Resolver = new FuncFieldResolver<SongListing>(ResolveSongListing),
+                Subscriber = new EventStreamResolver<SongListing>(SubscribeToSongListing)
             });
-            */
 
             AddField(new EventStreamFieldType
             {
-                Name = "votesUpdated",
-                Type = typeof(VoteTotalGraphType),
-                Resolver = new FuncFieldResolver<IEnumerable<VoteTotal>>(ResolveVotes),
-                Subscriber = new EventStreamResolver<IEnumerable<VoteTotal>>(SubscribeToVotes)
+                Name = "votingResultsUpdated",
+                Type = typeof(VotingResultsGraphType),
+                Resolver = new FuncFieldResolver<VotingResults>(ResolveVotingResults),
+                Subscriber = new EventStreamResolver<VotingResults>(SubscribeToVotingResults)
             });
         }
 
-        private IEnumerable<VoteTotal> ResolveVotes(ResolveFieldContext context)
-        {
-            var votes = context.Source as IEnumerable<VoteTotal>;
-            return votes;
-        }
+        private VotingResults ResolveVotingResults(ResolveFieldContext context) => context.Source as VotingResults;
 
-        private IObservable<IEnumerable<VoteTotal>> SubscribeToVotes(ResolveEventStreamContext context)
-        {
-            return PartyService.ObservableSongVotes;
-        }
+        private IObservable<VotingResults> SubscribeToVotingResults(ResolveEventStreamContext context) => PartyService.ObservableVotingResults;
+
+        private SongListing ResolveSongListing(ResolveFieldContext context) => context.Source as SongListing;
+
+        private IObservable<SongListing> SubscribeToSongListing(ResolveEventStreamContext context) => PartyService.ObservableSongListing;
     }
 }

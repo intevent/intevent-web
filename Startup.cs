@@ -41,8 +41,10 @@ namespace intevent_web
 
             services.AddSingleton<IPartyService, PartyService>();
             services.AddSingleton<SongGraphType>();
+            services.AddSingleton<SongListingGraphType>();
             services.AddSingleton<SongVoteGraphType>();
-            services.AddSingleton<VoteTotalGraphType>();
+            services.AddSingleton<VotingTotalGraphType>();
+            services.AddSingleton<VotingResultsGraphType>();
             services.AddSingleton<SongVoteInputGraphType>();
             services.AddSingleton<PartyMutations>();
             services.AddSingleton<PartyQueries>();

@@ -14,13 +14,13 @@ namespace intevent_web.GraphQL
             Field<ListGraphType<SongGraphType>>(
                 name: "songs",
                 description: "songs",
-                resolve: (context) => partyService.Songs
+                resolve: (context) => partyService.SongListing.VotableSongs
             );
 
-            Field<ListGraphType<VoteTotalGraphType>>(
-                name: "songVotes",
-                description: "song votes",
-                resolve: (context) => partyService.SongVotes
+            Field<VotingResultsGraphType>(
+                name: "votingResults",
+                description: "voting results",
+                resolve: (context) => partyService.VotingResults
             );
         }
     }
