@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using GraphQL;
+using GraphQL.Http;
+using GraphQL.Server;
+using GraphQL.Server.Transports.AspNetCore;
+using GraphQL.Server.Transports.WebSockets;
+using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +17,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using intevent_web.GraphQL;
+using intevent_web.Models;
 using intevent_web.Services;
 
 namespace intevent_web
@@ -26,6 +34,25 @@ namespace intevent_web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+            
+            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
+            services.AddSingleton<IDocumentWriter, DocumentWriter>();
+
+            services.AddSingleton<IPartyService, PartyService>();
+            services.AddSingleton<SongGraphType>();
+            services.AddSingleton<SongListingGraphType>();
+            services.AddSingleton<SongVoteGraphType>();
+            services.AddSingleton<VotingTotalGraphType>();
+            services.AddSingleton<VotingResultsGraphType>();
+            services.AddSingleton<SongVoteInputGraphType>();
+            services.AddSingleton<PartyMutations>();
+            services.AddSingleton<PartyQueries>();
+            services.AddSingleton<PartySubscriptions>();
+            services.AddSingleton<PartySchema>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             /*
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -35,22 +62,19 @@ namespace intevent_web
             });
             */
 
+            services.AddGraphQL(options =>
+            {
+                options.EnableMetrics = true;
+                options.ExposeExceptions = true;
+            })
+            .AddWebSockets();
+            //https://github.com/graphql-dotnet/server/issues/162
+            //.AddDataLoader();
+            
+            //.AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User });
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.AddHttpClient<IEventsService, EventsService>(client =>
-            {
-                client.BaseAddress = new Uri("http://localhost:5000/");
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.DefaultRequestHeaders.Add("User-Agent", "intevent-web");
-            });
-
-            services.AddHttpClient<IMediaVotesService, MediaVotesService>(client =>
-            {
-                client.BaseAddress = new Uri("http://localhost:5000/");
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.DefaultRequestHeaders.Add("User-Agent", "intevent-web");
-            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -63,23 +87,30 @@ namespace intevent_web
             {
                 app.UseHsts();
             }
-
+/*
             app.Use(async (context, next) => 
             { 
                 await next(); 
                 string path = context.Request.Path.Value;
 
-                if (!path.StartsWith("/api") && !Path.HasExtension(path)) 
+                if (!path.StartsWith("/api") && !path.StartsWith("/graphql") && !Path.HasExtension(path)) 
                 { 
                     context.Request.Path = "/"; 
                     await next(); 
                 } 
             });
-
+*/
             // app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseWebSockets();
+            app.UseGraphQLWebSockets<PartySchema>("/graphql");
+            app.UseGraphQL<PartySchema>("/graphql");
             // app.UseCookiePolicy();
+            app.UseGraphQLPlayground(new GraphQLPlaygroundOptions
+            {
+                Path = "/ui/playground"
+            });
             app.UseMvc();
         }
     }
