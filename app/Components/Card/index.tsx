@@ -39,33 +39,31 @@ const styles = (theme: Theme) =>
 
 function MediaControlCard(props) {
   const { classes, theme } = props;
+  const { title, artist, votes } = props;
 
   return (
     <div>
       <Card className={classes.card}>
         <div className={classes.details}>
           <CardContent className={classes.content}>
-            <Typography variant="headline">Live From Space</Typography>
+            <Typography variant="headline">{title}</Typography>
             <Typography variant="subheading" color="textSecondary">
-              Mac Miller
+              {artist}
             </Typography>
           </CardContent>
           <div className={classes.controls}>
-            <IconButton aria-label="Previous">
-              {theme.direction === 'rtl' ? <ThumbsUp /> : <ThumbsDown />}
-            </IconButton>
-            <IconButton aria-label="Next">
-              {theme.direction === 'rtl' ? <ThumbsDown /> : <ThumbsUp />}
+            <IconButton aria-label="Vote">
+              <ThumbsUp />
             </IconButton>
             <Typography variant="subheading" color="textSecondary">
-              Votes: 0
+              Votes: {votes}
             </Typography>
           </div>
         </div>
         <CardMedia
           className={classes.cover}
           image="/static/images/cards/live-from-space.jpg"
-          title="Live from space album cover"
+          title={`${artist} - ${title}`}
         />
       </Card>
     </div>

@@ -31,4 +31,5 @@ function TitlebarGridList(props) {
   );
 }
 
-export default withStyles(styles)(TitlebarGridList);
+//export default withStyles(styles)(TitlebarGridList);
+export default TitlebarGridList;

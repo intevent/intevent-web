@@ -1,7 +1,8 @@
-import { Action, applyMiddleware, compose, createStore, Store } from 'redux';
+import { applyMiddleware, compose, createStore, Store } from 'redux';
 import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 import { appReducer, AppState, defaultAppState } from '../reducers/app';
 import { helloSaga } from '../sagas/app';
+import { performBeginSongSubscription, performBeginVotingSubscription } from '../../api/sagas';
 
 export const configureStore = (defaultState: AppState = defaultAppState): Store<AppState> => {
   const sagaMiddleware = createSagaMiddleware();
@@ -10,11 +11,13 @@ export const configureStore = (defaultState: AppState = defaultAppState): Store<
   const store: Store<AppState> = createStore(
     appReducer,
     defaultState,
-    compose(
+    (window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose)(
       applyMiddleware(sagaMiddleware)
     ),
   );
 
   sagaMiddleware.run(helloSaga);
+  sagaMiddleware.run(performBeginSongSubscription);
+  sagaMiddleware.run(performBeginVotingSubscription);
   return store;
 };

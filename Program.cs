@@ -19,6 +19,10 @@ namespace intevent_web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration
+                ((hostingContext, config) =>
+                    config.AddEnvironmentVariables("spotify")
+                )
                 .UseStartup<Startup>();
     }
 }
