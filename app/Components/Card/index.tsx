@@ -12,53 +12,51 @@ import ThumbsDown from '@material-ui/icons/ThumbDown';
 const styles = (theme: Theme) =>
   createStyles({
     card: {
-      display: 'flex'
+      display: 'flex',
     },
     details: {
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
     },
     content: {
-      flex: '1 0 auto'
+      flex: '1 0 auto',
     },
     cover: {
       width: 151,
-      height: 151
+      height: 151,
     },
     controls: {
       display: 'flex',
       alignItems: 'center',
       paddingLeft: theme.spacing.unit,
-      paddingBottom: theme.spacing.unit
+      paddingBottom: theme.spacing.unit,
     },
     playIcon: {
       height: 38,
-      width: 38
-    }
+      width: 38,
+    },
   });
 
 function MediaControlCard(props) {
-  const { classes, theme } = props;
+  const { classes, theme, title, artist, votes } = props;
 
   return (
     <div>
       <Card className={classes.card}>
         <div className={classes.details}>
           <CardContent className={classes.content}>
-            <Typography variant="headline">Live From Space</Typography>
+            <Typography variant="headline">{title}</Typography>
             <Typography variant="subheading" color="textSecondary">
-              Mac Miller
+              {artist}
             </Typography>
           </CardContent>
           <div className={classes.controls}>
-            <IconButton aria-label="Previous">
-              {theme.direction === 'rtl' ? <ThumbsUp /> : <ThumbsDown />}
+            <IconButton aria-label="thumbs up">
+              <ThumbsUp />
             </IconButton>
-            <IconButton aria-label="Next">
-              {theme.direction === 'rtl' ? <ThumbsDown /> : <ThumbsUp />}
-            </IconButton>
+
             <Typography variant="subheading" color="textSecondary">
-              Votes: 0
+              Votes: {votes}
             </Typography>
           </div>
         </div>
