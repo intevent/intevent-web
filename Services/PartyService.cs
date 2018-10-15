@@ -41,16 +41,6 @@ namespace intevent_web.Services
 
         public PartyService()
         {
-            var songs = new List<Song>
-            {
-                new Song { Id = "1", Artist = "Artist1", Title = "Title1", Duration = new TimeSpan(0, 1, 0) },
-                new Song { Id = "2", Artist = "Artist2", Title = "Title2", Duration = new TimeSpan(0, 2, 0) },
-                new Song { Id = "3", Artist = "Artist3", Title = "Title3", Duration = new TimeSpan(0, 3, 0) },
-                new Song { Id = "4", Artist = "Artist4", Title = "Title4", Duration = new TimeSpan(0, 4, 0) },
-                new Song { Id = "5", Artist = "Artist5", Title = "Title5", Duration = new TimeSpan(0, 5, 0) },
-            };
-
-            Reset(songs, new Song { Id = "0", Artist = "Toto", Title = "Africa", Duration = new TimeSpan(0, 4, 34) });
         }
 
         public SongListing SongListing
@@ -79,10 +69,14 @@ namespace intevent_web.Services
 
         public SongVote AddSongVote(SongVote vote)
         {
-            AllVotes[vote.VoterId] = vote.SongId;
-            VotingResultsStream.OnNext(GenerateVotingResults(AllSongs, AllVotes, CanVote));
+            if (CanVote)
+            {
+                AllVotes[vote.VoterId] = vote.SongId;
+                VotingResultsStream.OnNext(GenerateVotingResults(AllSongs, AllVotes, CanVote));
+                return vote;
+            }
 
-            return vote;
+            return new SongVote{ VoterId = vote.VoterId, SongId = AllVotes[vote.VoterId] };
         }
 
         public void Reset(IEnumerable<Song> songs, Song currentlyPlaying)
@@ -104,6 +98,7 @@ namespace intevent_web.Services
         public void LockVoting()
         {
             CanVote = false;
+            VotingResultsStream.OnNext(GenerateVotingResults(AllSongs, AllVotes, CanVote));
         }
 
         private VotingResults GenerateVotingResults(IEnumerable<Song> songs, IDictionary<string, string> votes, bool canVote)
