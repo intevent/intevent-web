@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Linq;
 using intevent_web.Models;
+using Microsoft.Extensions.Logging;
 
 namespace intevent_web.Services
 {
@@ -31,6 +32,8 @@ namespace intevent_web.Services
 
     public class PartyService : IPartyService
     {
+        private ILogger Logger { get; }
+        
         private ISubject<SongListing> SongListingStream { get; } = new ReplaySubject<SongListing>(1);
 
         private ISubject<VotingResults> VotingResultsStream { get; } = new ReplaySubject<VotingResults>(1);
@@ -39,8 +42,9 @@ namespace intevent_web.Services
 
         private ConcurrentDictionary<string, string> AllVotes { get; } = new ConcurrentDictionary<string, string>();
 
-        public PartyService()
+        public PartyService(ILogger<PartyService> logger)
         {
+            Logger = logger;
         }
 
         public SongListing SongListing
@@ -81,6 +85,9 @@ namespace intevent_web.Services
 
         public void Reset(IEnumerable<Song> songs, Song currentlyPlaying)
         {
+            Logger.LogDebug("PartyService: Reset");
+            Console.WriteLine("PartyService: Reset");
+            
             AllSongs.Clear();
             foreach (Song song in songs)
             {

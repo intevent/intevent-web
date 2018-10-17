@@ -12,6 +12,8 @@ namespace intevent_web.Models
         public string Artist { get; set; }
 
         public TimeSpan Duration { get; set; }
+
+        public string AlbumArtUrl { get; set; }
     }
 
     public class SongGraphType : ObjectGraphType<Song>
@@ -24,6 +26,7 @@ namespace intevent_web.Models
             Field(_ => _.Title).Description("Title");
             Field(_ => _.Artist).Description("Artist");
             Field(_ => _.Duration).Description("Duration");
+            Field(_ => _.AlbumArtUrl).Description("Album Art URL");
         }
     }
 }
