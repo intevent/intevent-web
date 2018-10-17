@@ -79,8 +79,16 @@ namespace intevent_web
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
 
+            services.AddHttpClient("spotifyApiClient", client =>
+            {
+                client.BaseAddress = new Uri("https://api.spotify.com/v1");
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+
             services.AddSingleton<IPartyService, PartyService>();
             services.AddSingleton<ISpotifyAuthService, SpotifyAuthService>();
+            services.AddSingleton<ISpotifySongService, SpotifySongService>();
             services.AddHostedService<SpotifyService>();
 
             services.AddMvc()

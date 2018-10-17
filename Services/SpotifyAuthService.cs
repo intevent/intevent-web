@@ -14,6 +14,8 @@ namespace intevent_web.Services
 {
     public interface ISpotifyAuthService
     {
+        string AuthToken { get; }
+
         Task StartAuthAsync();
 
         Task RefreshAuthAsync();
@@ -34,6 +36,8 @@ namespace intevent_web.Services
         private SpotifyToken SpotifyToken { get; set; }
 
         private Timer Timer { get; set; }
+
+        public string AuthToken => SpotifyToken?.AccessToken;
 
         public SpotifyAuthService(IHttpClientFactory httpClientFactory, ILogger<SpotifyAuthService> logger)
         {
