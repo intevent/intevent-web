@@ -39,7 +39,6 @@ namespace intevent_web
             services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
             services.AddSingleton<IDocumentWriter, DocumentWriter>();
 
-            services.AddSingleton<IPartyService, PartyService>();
             services.AddSingleton<SongGraphType>();
             services.AddSingleton<SongListingGraphType>();
             services.AddSingleton<SongVoteGraphType>();
@@ -72,6 +71,17 @@ namespace intevent_web
             //.AddDataLoader();
             
             //.AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User });
+
+            services.AddHttpClient("spotifyAccountClient", client =>
+            {
+                client.BaseAddress = new Uri("https://accounts.spotify.com/api");
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+
+            services.AddSingleton<IPartyService, PartyService>();
+            services.AddSingleton<ISpotifyAuthService, SpotifyAuthService>();
+            services.AddHostedService<SpotifyService>();
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
