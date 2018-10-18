@@ -24,7 +24,7 @@ namespace intevent_web.Services
     public class SpotifyAuthService : ISpotifyAuthService
     {
         private ILogger Logger { get; }
-        
+
         private IHttpClientFactory HttpClientFactory { get; }
 
         private string SpotifyClientId { get; }
@@ -46,8 +46,8 @@ namespace intevent_web.Services
 
             SpotifyClientId = Environment.GetEnvironmentVariable("spotify_clientId");
             SpotifyClientSecret = Environment.GetEnvironmentVariable("spotify_clientSecret");
-            //SpotifyClientId = "CLIENT ID HERE";
-            //SpotifyClientSecret = "SECRET HERE";
+            SpotifyClientId = "7b7a459b2bb44109ad3e3f8ad9337eac";
+            SpotifyClientSecret = "515c5c4dfbc248899c2944e9c880ef8e";
 
             if (string.IsNullOrWhiteSpace(SpotifyClientId) || string.IsNullOrWhiteSpace(SpotifyClientSecret))
             {
@@ -62,7 +62,7 @@ namespace intevent_web.Services
         {
             Logger.LogDebug("SpotifyAuthService: StartAuthAsync");
             Console.WriteLine("SpotifyAuthService: StartAuthAsync");
-            
+
             using (HttpClient client = HttpClientFactory.CreateClient("spotifyAccountClient"))
             {
                 var kvp = new List<KeyValuePair<string, string>>
