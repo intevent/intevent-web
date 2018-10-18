@@ -16,10 +16,10 @@ const styles = (theme: Theme) =>
     },
     details: {
       display: 'flex',
-      flexDirection: 'column',
     },
     content: {
       flex: '1 0 auto',
+      width: '100%',
     },
     cover: {
       width: 151,
@@ -38,35 +38,46 @@ const styles = (theme: Theme) =>
   });
 
 function MediaControlCard(props) {
-  const { classes, theme, title, artist, votes } = props;
+  const {
+    classes,
+    theme,
+    title,
+    artist,
+    votes,
+    albumArt,
+    voteClick,
+    canVote,
+  } = props;
 
   return (
-    <div>
-      <Card className={classes.card}>
-        <div className={classes.details}>
-          <CardContent className={classes.content}>
-            <Typography variant="headline">{title}</Typography>
-            <Typography variant="subheading" color="textSecondary">
-              {artist}
-            </Typography>
-          </CardContent>
-          <div className={classes.controls}>
-            <IconButton aria-label="thumbs up">
-              <ThumbsUp />
-            </IconButton>
+    <Card className={classes.card}>
+      <div className={classes.details}>
+        <CardContent className={classes.content}>
+          <Typography variant="headline">{title}</Typography>
+          <Typography variant="subheading" color="textSecondary">
+            {artist}
+          </Typography>
+        </CardContent>
+        <div className={classes.controls}>
+          <IconButton
+            aria-label="thumbs up"
+            onClick={e => {
+              e.preventDefault();
+              voteClick();
+            }}
+          >
+            <ThumbsUp />
+          </IconButton>
 
-            <Typography variant="subheading" color="textSecondary">
-              Votes: {votes}
-            </Typography>
-          </div>
+          <Typography variant="subheading" color="textSecondary">
+            Votes: {votes}
+          </Typography>
         </div>
-        <CardMedia
-          className={classes.cover}
-          image="/static/images/cards/live-from-space.jpg"
-          title="Live from space album cover"
-        />
-      </Card>
-    </div>
+        <CardContent className={classes.content}>
+          <CardMedia className={classes.cover} image={albumArt} />
+        </CardContent>
+      </div>
+    </Card>
   );
 }
 
