@@ -13,17 +13,23 @@ const styles = (theme: Theme) =>
   createStyles({
     card: {
       display: 'flex',
+      marginBottom: '5px',
+      marginTop: '5px',
+      width: '100%',
     },
     details: {
       display: 'flex',
+      justifyContent: 'space-between',
+      width: 'calc(100% - 350px)',
     },
     content: {
       flex: '1 0 auto',
       width: '100%',
     },
     cover: {
-      width: 151,
       height: 151,
+      marginLeft: 'auto',
+      width: 151,
     },
     controls: {
       display: 'flex',
@@ -47,6 +53,7 @@ function MediaControlCard(props) {
     albumArt,
     voteClick,
     canVote,
+    displayVoting = true,
   } = props;
 
   return (
@@ -58,25 +65,25 @@ function MediaControlCard(props) {
             {artist}
           </Typography>
         </CardContent>
-        <div className={classes.controls}>
-          <IconButton
-            aria-label="thumbs up"
-            onClick={e => {
-              e.preventDefault();
-              voteClick();
-            }}
-          >
-            <ThumbsUp />
-          </IconButton>
+        {displayVoting &&
+          <div className={classes.controls}>
+            <IconButton
+              aria-label="thumbs up"
+              onClick={e => {
+                e.preventDefault();
+                voteClick();
+              }}
+            >
+              <ThumbsUp />
+            </IconButton>
 
-          <Typography variant="subheading" color="textSecondary">
-            Votes: {votes}
-          </Typography>
-        </div>
-        <CardContent className={classes.content}>
-          <CardMedia className={classes.cover} image={albumArt} />
-        </CardContent>
+            <Typography variant="subheading" color="textSecondary">
+              Votes: {votes}
+            </Typography>
+          </div>
+        }
       </div>
+      <CardMedia className={classes.cover} image={albumArt} />
     </Card>
   );
 }
