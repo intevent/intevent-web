@@ -5,10 +5,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import ThumbsUp from '@material-ui/icons/ThumbUp';
-import ThumbsDown from '@material-ui/icons/ThumbDown';
 const styles = (theme: Theme) =>
   createStyles({
     card: {
@@ -38,6 +36,7 @@ const styles = (theme: Theme) =>
       paddingBottom: theme.spacing.unit,
     },
     playIcon: {
+      alignItems: 'left',
       height: 38,
       width: 38,
     },
@@ -80,6 +79,13 @@ function MediaControlCard(props) {
             <Typography variant="subheading" color="textSecondary">
               Votes: {votes}
             </Typography>
+          </div>
+        }
+        {!displayVoting &&
+          <div className={classes.controls}>
+            <IconButton aria-label="Play/pause">
+            <PlayArrowIcon className={classes.playIcon} />
+          </IconButton>
           </div>
         }
       </div>
