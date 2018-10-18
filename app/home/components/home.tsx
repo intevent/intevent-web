@@ -86,9 +86,7 @@ const SongsComponent = (songs, votes = new Map()) =>
             console.log('Voted');
             updateVote({ variables: { voterId: id, songId: song.id } });
           }}
-        >
-          {console.log(votes, votes.get(song.id))}
-        </Card>
+        />
       )}
     </Mutation>
   ));
@@ -110,7 +108,12 @@ const Votes = songs => (
         {!loading && console.log(data)}
         {!loading &&
           data.votingResultsUpdated &&
-          SongsComponent(songs, new Map(data.votingResultsUpdated.votes))}
+          SongsComponent(
+            songs,
+            new Map(
+              data.votingResultsUpdated.votes.map(v => [v.songId, v.votes])
+            )
+          )}
       </div>
     )}
   </Subscription>
