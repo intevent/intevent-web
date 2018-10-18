@@ -9,6 +9,12 @@ import { Subscription, Query, Mutation } from 'react-apollo';
 const GET_NEW_SONGS = gql`
   subscription {
     songsUpdated {
+      currentlyPlaying {
+        id
+        artist
+        title
+        albumArtUrl
+      }
       votableSongs {
         id
         artist
@@ -82,6 +88,7 @@ const SongsComponent = (songs, votes = new Map()) =>
           artist={song.artist}
           votes={votes.get(song.id) || 0}
           albumArt={song.albumArtUrl}
+          displayVoting
           voteClick={() => {
             console.log('Voted');
             updateVote({ variables: { voterId: id, songId: song.id } });
@@ -95,7 +102,16 @@ const Songs = () => (
   <Subscription subscription={GET_NEW_SONGS}>
     {({ data, loading }) => (
       <div>
-        {!loading && console.log(data)}
+        {!loading && 
+          <Card
+            title={data.songsUpdated.currentlyPlaying.title}
+            artist={data.songsUpdated.currentlyPlaying.artist}
+            votes={0}
+            albumArt={data.songsUpdated.currentlyPlaying.albumArtUrl}
+            displayVoting={false}
+            voteClick={() => {}}
+          />
+        }
         {!loading && data.songsUpdated && Votes(data.songsUpdated.votableSongs)}
       </div>
     )}

@@ -91,6 +91,7 @@ namespace intevent_web
             services.AddSingleton<ISpotifySongService, SpotifySongService>();
             services.AddHostedService<SpotifyService>();
 
+            services.AddCors();
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -119,6 +120,13 @@ namespace intevent_web
             });
 */
             // app.UseHttpsRedirection();
+
+            app.UseCors(builder =>
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+            );
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseWebSockets();

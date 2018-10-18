@@ -15,12 +15,12 @@ import { getMainDefinition } from 'apollo-utilities';
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: 'http://localhost/graphql',
+  uri: `${window.location.protocol}//${window.location.host}/graphql`,
 });
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost/graphql`,
+  uri: `${window.location.protocol === "https:" ? "wss:" : "ws:"}//${window.location.host}/graphql`,
   options: {
     reconnect: true,
   },
