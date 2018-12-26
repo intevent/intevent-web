@@ -6,14 +6,14 @@ COPY . /app
 RUN npm ci
 RUN npm run build:production
 
-FROM microsoft/dotnet:2.1-sdk-alpine AS aspnet-builder
+FROM microsoft/dotnet:2.2-sdk-alpine AS aspnet-builder
 LABEL stage=intevent-web-intermediate
 RUN mkdir -p /app/dist
 WORKDIR /app
 COPY . /app
 RUN dotnet publish -c Release -o dist
 
-FROM microsoft/dotnet:2.1-aspnetcore-runtime-alpine
+FROM microsoft/dotnet:2.2-aspnetcore-runtime-alpine
 RUN mkdir -p /app/wwwroot/js
 WORKDIR /app
 COPY --from=aspnet-builder /app/dist .
